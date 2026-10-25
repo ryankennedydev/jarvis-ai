@@ -18,7 +18,7 @@ if [ ! -x .venv/bin/python ] || ! .venv/bin/python -c "import gi, webview" 2>/de
 fi
 
 # Dependências novas (ex.: openai) em um ambiente que já existia.
-if ! .venv/bin/python -c "import openai, piper" 2>/dev/null; then
+if ! .venv/bin/python -c "import openai, piper, faster_whisper, sounddevice" 2>/dev/null; then
     .venv/bin/pip install -q -r requirements.txt
 fi
 
