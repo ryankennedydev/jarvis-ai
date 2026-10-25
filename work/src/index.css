@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --color-neon: #c4ff3d;
+  --font-sans: "Inter", "Geist", "Cantarell", "Noto Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", "DejaVu Sans Mono", monospace;
+}
+
+html, body, #root { height: 100%; margin: 0; }
+body {
+  background: radial-gradient(70rem 50rem at 65% 40%, #0d1a08 0%, #050605 55%, #020302 100%);
+  color: #e7efe0;
+  font-family: var(--font-sans);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--color-neon); color: #000; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(196, 255, 61, 0.18); border-radius: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+select option { background: #0a0d09; }
+
+@keyframes aparecer { from { opacity: 0; transform: translateY(6px); } }
+@keyframes deslizar { from { transform: translateX(100%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

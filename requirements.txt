@@ -1,0 +1,7 @@
+anthropic>=2.3.0
+openai>=1.40.0
+piper-tts>=1.3.0
+pywebview>=5.0
+python-dotenv>=1.0.0
+# Também precisa do GTK + WebKit do sistema (Fedora já vem com eles):
+#   sudo dnf install python3-gobject webkit2gtk4.1

@@ -1,0 +1,31 @@
+# Segredos - NUNCA versionar
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets*/
+
+# Dados locais do Jarvis (memórias, conversas, PIN, arquivos dos bots, modelos de voz)
+dados/
+*.db
+*.sqlite*
+*.tmp
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Node (o app Work/Brain)
+node_modules/
+work/dist/
+*.tsbuildinfo
+
+# Editor e sistema
+.vscode/
+.idea/
+.claude/
+*.log
+.DS_Store

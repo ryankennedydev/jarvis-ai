@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Nada de rede externa: só arquivos locais. 'unsafe-eval' é exigido pela ponte do pywebview;
+       o texto das respostas nunca passa por eval nem vira HTML executável. -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self' 'unsafe-eval'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'self'">
+  <title>J.A.R.V.I.S.</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<div id="app" class="layout">
+
+  <!-- ===== Coluna esquerda ===== -->
+  <aside id="esquerda" class="painel lateral">
+    <div class="marca">
+      <h1>J.A.R.V.I.S.</h1>
+      <p>INTELIGÊNCIA PESSOAL</p>
+    </div>
+
+    <div class="mostrador">
+      <svg id="mostrador" viewBox="0 0 200 200" aria-hidden="true"></svg>
+      <span id="mostrador-texto">ONLINE</span>
+    </div>
+
+    <h2 class="rotulo">MÓDULOS</h2>
+    <nav id="modulos" class="pastas"></nav>
+
+    <div class="status canto">
+      <div class="linha"><span>STATUS</span><b id="st-status" class="verde">● ONLINE</b></div>
+      <div class="linha"><span>MODELO</span><b id="st-modelo">—</b></div>
+      <div class="linha"><span>ESFORÇO</span><b id="st-esforco">—</b></div>
+      <div class="linha"><span>LATÊNCIA</span><b id="st-latencia">—</b></div>
+      <div class="barra"><i id="st-barra"></i></div>
+      <div class="linha fina"><span id="st-contas">T 0 · M 0 · C 0</span></div>
+      <div class="linha"><span>HORA</span><b id="st-hora">--:--:--</b></div>
+    </div>
+  </aside>
+
+  <!-- ===== Centro ===== -->
+  <main id="centro">
+    <header class="topo">
+      <button class="icone" id="bt-esquerda" title="Mostrar/ocultar conversas"></button>
+      <div class="local">
+        <span>CHAT</span>
+        <b id="titulo-pasta">ASSISTENTE</b>
+      </div>
+      <div class="espaco"></div>
+      <button class="icone oculto" id="bt-escuta" title="Escuta contínua: diga &quot;Jarvis, …&quot;"></button>
+      <button class="icone" id="bt-nova" title="Nova conversa (Ctrl+N)"></button>
+      <button class="icone" id="bt-memorias" title="Memórias"></button>
+      <button class="icone" id="bt-tarefas" title="Tarefas"></button>
+      <button class="icone" id="bt-bloquear" title="Bloquear (Ctrl+L)"></button>
+      <button class="icone" id="bt-tela" title="Tela cheia (F11)"></button>
+      <button class="icone" id="bt-direita" title="Mostrar/ocultar painel"></button>
+    </header>
+
+    <section id="palco" class="palco">
+      <canvas id="orbe"></canvas>
+      <div id="legenda" class="legenda">ONLINE · AGUARDANDO</div>
+    </section>
+
+    <section id="mensagens" class="mensagens" aria-live="polite"></section>
+
+    <footer class="compositor">
+      <button id="bt-mic" class="mic oculto" title="Falar agora (Ctrl+Espaço)"></button>
+      <textarea id="entrada" rows="1" placeholder="Fale com o Jarvis…  (Enter envia · Shift+Enter quebra linha)"></textarea>
+      <button id="bt-enviar" class="enviar" title="Enviar"></button>
+    </footer>
+  </main>
+
+  <!-- ===== Módulo Work (painel da empresa, app próprio em work/) ===== -->
+  <section id="work" class="work oculto">
+    <iframe id="work-frame" title="Work" allow="fullscreen"></iframe>
+    <div id="work-vazio" class="work-vazio oculto">O módulo Work ainda não foi compilado.</div>
+  </section>
+
+  <!-- ===== Módulo Brain (o cérebro do Jarvis em 3D, mesmo app do Work) ===== -->
+  <section id="brain" class="work oculto">
+    <iframe id="brain-frame" title="Brain" allow="fullscreen"></iframe>
+    <div id="brain-vazio" class="work-vazio oculto">O módulo Brain ainda não foi compilado (cd work &amp;&amp; npm run build).</div>
+  </section>
+
+  <!-- ===== Coluna direita ===== -->
+  <aside id="direita" class="painel lateral">
+    <h2 class="rotulo">SISTEMA</h2>
+    <button class="cartao" data-abrir="tarefas"><i data-icone="tarefas"></i><span>Tarefas</span><b id="ct-tarefas">0</b></button>
+    <button class="cartao" data-abrir="memorias"><i data-icone="memorias"></i><span>Memórias</span><b id="ct-memorias">0</b></button>
+    <div class="cartao estatico"><i data-icone="chat"></i><span>Conversas</span><b id="ct-conversas">0</b></div>
+
+    <h2 class="rotulo">AÇÕES RÁPIDAS</h2>
+    <div class="acoes">
+      <button data-acao="plano"><i data-icone="plano"></i>Plano do dia</button>
+      <button data-acao="pesquisa"><i data-icone="busca"></i>Pesquisa web</button>
+      <button data-acao="noticias"><i data-icone="noticias"></i>Notícias</button>
+      <button data-acao="clima"><i data-icone="clima"></i>Clima</button>
+      <button data-acao="relatorio"><i data-icone="relatorio"></i>Resumo</button>
+      <button data-acao="semana"><i data-icone="semana"></i>Semana</button>
+    </div>
+
+    <h2 class="rotulo">CONEXÃO</h2>
+    <div class="info canto">
+      <div class="linha"><span>CHAVE</span><b id="inf-chave">—</b></div>
+      <div class="linha"><span>WEB</span><b id="inf-web">—</b></div>
+      <div class="linha"><span>VOZ</span><b id="inf-voz">—</b></div>
+      <div class="linha"><span>VERSÃO</span><b id="inf-versao">—</b></div>
+      <div class="linha"><span>ZOOM</span><b id="inf-zoom">—</b></div>
+    </div>
+    <p class="dica">Diga "Jarvis, …" para falar com ele · Ctrl+Espaço fala sem dizer o nome<br>
+      Ctrl + / Ctrl − ajustam o tamanho · Ctrl 0 volta ao automático</p>
+  </aside>
+
+  <div id="veu" class="veu"></div>
+</div>
+
+<!-- ===== Bloqueio por PIN ===== -->
+<div id="bloqueio" class="bloqueio oculto">
+  <form id="form-pin" class="caixa-pin canto">
+    <canvas id="orbe-pin" width="200" height="200"></canvas>
+    <h1>J.A.R.V.I.S.</h1>
+    <p>IDENTIFICAÇÃO NECESSÁRIA</p>
+    <input id="pin" type="password" inputmode="numeric" autocomplete="off" placeholder="PIN">
+    <span id="pin-erro" class="erro"></span>
+    <button type="submit">Desbloquear</button>
+  </form>
+</div>
+
+<!-- ===== Janela modal (memórias / tarefas) ===== -->
+<div id="modal" class="modal oculto">
+  <div class="caixa-modal canto">
+    <header><h3 id="modal-titulo"></h3><button class="icone" id="modal-fechar" title="Fechar"></button></header>
+    <div id="modal-corpo" class="modal-corpo"></div>
+  </div>
+</div>
+
+<div id="aviso" class="aviso oculto"></div>
+
+<script src="markdown.js"></script>
+<script src="orbe.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
